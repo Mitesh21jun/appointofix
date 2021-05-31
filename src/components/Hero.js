@@ -1,23 +1,87 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import GirlPng from "../img/girl.png";
+import AppointofixDataService from "../services/appointofix";
+const Hero = props => {
+    const [category, setCategories] = useState(["All Categories"]);
+    const [city, setCity] = useState(["All City"]);
+    const [name, setName] = useState(["Select Destination"]);
 
-function Hero() {
+
+    useEffect(() => {
+        retrieveCategories();
+        retrieveCity();
+        retrieveName();
+    }, []);
+
+    const retrieveCategories = () => {
+        AppointofixDataService.getCategories()
+            .then(response => {
+                console.log(response.data);
+                setCategories(["All Categories"].concat(response.data));
+
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+
+
+    const retrieveCity = () => {
+        AppointofixDataService.getCity()
+            .then(response => {
+                console.log(response.data);
+                setCity(["All City"].concat(response.data));
+
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+
+    const retrieveName= () => {
+        AppointofixDataService.getName()
+            .then(response => {
+                console.log(response.data);
+                setName(["Select Destination"].concat(response.data));
+
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+
     return (
         <div>
             <div className="hero">
-                <h1 className="hero-text">Fix my appointment with</h1>
+                <h1 className="hero-text">Fix your appointment</h1>
 
                 <div className="input-group">
-                    <select type="text" className="input" id="segment" placeholder="Segment" />
+                    <select type="text" className="input" id="segment">
+                        {category.map(category => {
+                            return (
+                                <option value={category}> {category.substr(0, 20)} </option>
+                            )
+                        })}
+                    </select>
+                    <select type="text" className="input mdb-select md-form" id="segment">
+                        {city.map(city => {
+                            return (
+                                <option value={city}> {city.substr(0, 20)} </option>
+                            )
+                        })}
+                    </select>
 
-                    <input placeholder="City"
-                        id="city"
-                        type="text"
-                        className="input" />
+                    <select type="text" className="input" id="name">
+                        {name.map(name => {
+                            return (
+                                <option value={name}> {name.substr(0, 20)} </option>
+                            )
+                        })}
+                    </select>
 
                     <input id='date'
-                        type="text"
-                        className="input"
+                        type="date"
+                        className="input date"
                         placeholder="Date"
                     />
 
