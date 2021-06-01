@@ -1,18 +1,37 @@
 import http from "../http-common";
 class AppointofixDataService {
-  // getAll(page = 0) {
-  //   return http.get(`restaurants?page=${page}`);
-  // }
+  getAll() {
+    return http.get(`/shops?`);
+  }
 
-  // get(id) {
-  //   return http.get(`/restaurant?id=${id}`);
-  // }
 
-  // find(query, by = "name", page = 0) {
-  //   return http.get(`restaurants?${by}=${query}&page=${page}`);
-  // } 
+  get(id) {
+    return http.get(`/shops?id=${id}`);
+  }
 
-  // createReview(data) {
+  find(query, by = "name", page = 0) {
+    return http.get(`shops?${by}=${query}&page=${page}`);
+  } 
+
+
+
+  getCategories(id) {
+    return http.get(`/category`);
+  }
+
+  getSubCategory(query, by='name') {
+    return http.get(`/sub_category?${by}=${query}`)
+  }
+  
+  getCity(id) {
+    return http.get(`/city`);
+  }
+
+  getName(id) {
+    return http.get(`/name`);
+  }
+
+    // createReview(data) {
   //   return http.post("/review-new", data);
   // }
 
@@ -23,17 +42,6 @@ class AppointofixDataService {
   // deleteReview(id, userId) {
   //   return http.delete(`/review-delete?id=${id}`, {data:{user_id: userId}});
   // }
-
-  getCategories(id) {
-    return http.get(`/category`);
-  }
   
-  getCity(id) {
-    return http.get(`/city`);
-  }
-
-  getName(id) {
-    return http.get(`/name`);
-  }
 }
 export default new AppointofixDataService();

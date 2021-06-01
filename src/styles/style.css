@@ -179,10 +179,10 @@ nav > .logo {
     min-width: 125px;
   }
 
-  .hero-bottom-img img{
+  .hero-bottom-img img {
     position: relative;
-          right: 0;
-        }
+    right: 0;
+  }
   .hero-bottom-text h1 {
     font-size: 1.5rem;
     margin-top: 2rem;
@@ -202,7 +202,7 @@ nav > .logo {
 }
 
 @media screen and (max-width: 510px) {
-  nav{
+  nav {
     width: 85%;
   }
   html {
@@ -229,7 +229,13 @@ nav > .logo {
     position: relative;
     display: flex;
   }
+  .hero {
+    height: 50vh;
+  }
 
+  .hero > .hero-text {
+    font-weight: normal;
+  }
   .hero > .input-group {
     width: 80%;
     display: grid;
@@ -237,19 +243,23 @@ nav > .logo {
     font-family: "Montserrat", sans-serif;
     font-weight: lighter;
   }
-  .hero > .input-group > .input{
+  .hero > .input-group > .input {
     width: 100%;
     margin-left: 0;
   }
-  .hero > .input-group > .btn{
+  .hero > .input-group > .btn {
     width: 100%;
     margin-left: 0;
     padding-top: 5px;
     padding-bottom: 5px;
   }
-  .hero-bottom-img img{
-position: relative;
-      right: 0;
-    }
+  .hero-bottom-img img {
+    position: relative;
+    right: 0;
+  }
+}
+
+.hero-bottom-text h1 {
+  font-size: large;
 }
 /*# sourceMappingURL=style.css.map */
