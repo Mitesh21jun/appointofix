@@ -2,22 +2,27 @@ import React, { useState, useEffect, useRef } from 'react'
 import GirlPng from "../img/girl.png";
 import AppointofixDataService from "../services/appointofix";
 const Hero = props => {
-    const [category, setCategories] = useState(["All Categories"]);
-    const [city, setCity] = useState(["All City"]);
+    const [category, setCategories] = useState(['Select Category']);
+    // const [city, setCity] = useState(["All City"]);
     const [name, setName] = useState(["Select Destination"]);
     const [searchCategory, setSearchCategory] = useState('');
     const [subCategory, setSubCategory] = useState([]);
     const [searchSubCategory, setSearchSubCategory] = useState([]);
+    const subCategoryRef = useRef()
 
-    const notInitialRender = useRef(false)
+    useEffect(() => {
+        
+    onChangeSubCategory()
+        
+    },[searchCategory])
 
-    
+
     let emptySubCategory = (subCategory.length === 0)
-    let emptySearchCategory = (searchCategory.length === 0)
+    // let emptySearchCategory = (searchCategory.length === 0)
 
     useEffect(() => {
         retrieveCategories();
-        retrieveCity();
+        // retrieveCity();
         retrieveName();
 
     }, []);
@@ -26,35 +31,37 @@ const Hero = props => {
 
 
 
-    const onChangeSubCategory = e => {
-        const searchSubCategory = e.target.value;
-        setSearchSubCategory(searchSubCategory);
-        console.log(searchSubCategory);
-
-     AppointofixDataService.getAll().then((response) => {
-            let tempName = (response.data.shops.map(shop => ((shop.category === searchCategory) && (shop.sub_category === searchSubCategory)) ? shop.name : '').filter(val => val !== ''))
-            
+    const onChangeSubCategory = async () => {
+        // searchSubCategory = e.target.value;
+        // console.log(e.target.value);
+        
+        await AppointofixDataService.getAll().then((response) => {
+            let tempName = (response.data.shops.map(shop => ((shop.category === searchCategory) && (shop.sub_category === subCategoryRef.current.value)) ? shop.name : '').filter(val => val !== ''))
             setName(tempName)
+        setSearchSubCategory(subCategoryRef.current.value);
+    // console.log(onChangeSubCategory(subCategoryRef.current))
+        }).catch(e => {
+            console.log(e);
+        });
 
-            console.log(setName);
-    })
-    
     };
 
-    const onChangeSearchCategory = e => {
-    console.log(e);
-        const searchCategory = e.target.value;
-        setSearchCategory(searchCategory);
+    const onChangeSearchCategory =async  e => {
+        // const searchCategory = e.target.value;
         // console.log(searchCategory);
-
-        AppointofixDataService.getAll().then((response) => {
-            setSubCategory(response.data.shops.map(shop => (shop.category === searchCategory) ? shop.sub_category : '').filter((value, index, self) => self.indexOf(value) === index).filter(val => val !== ''))
+        
+        await AppointofixDataService.getAll().then((response) => {
+            setSubCategory(response.data.shops.map(shop => (shop.category === e.target.value) ? shop.sub_category : '').filter((value, index, self) => self.indexOf(value) === index).filter(val => val !== ''))
             // setSubCategory(changeCategory)
-        })
+            setSearchCategory(e.target.value);
+            
+        }).catch(e => {
+            console.log(e);
+        });
     };
 
-    const retrieveCategories = () => {
-        AppointofixDataService.getCategories()
+    const retrieveCategories = async () => {
+        await AppointofixDataService.getCategories()
             .then(response => {
                 console.log(response.data);
                 setCategories(["Select Category"].concat(response.data));
@@ -66,20 +73,20 @@ const Hero = props => {
     };
 
 
-    const retrieveCity = () => {
-        AppointofixDataService.getCity()
-            .then(response => {
-                console.log(response.data);
-                setCity(["All City"].concat(response.data));
+    // const retrieveCity = () => {
+    //     AppointofixDataService.getCity()
+    //         .then(response => {
+    //             console.log(response.data);
+    //             setCity(["All City"].concat(response.data));
 
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
+    //         })
+    //         .catch(e => {
+    //             console.log(e);
+    //         });
+    // };
 
-    const retrieveName = () => {
-        AppointofixDataService.getName()
+    const retrieveName = async () => {
+        await AppointofixDataService.getName()
             .then(response => {
                 console.log(response.data);
                 setName(["Select Name"].concat(response.data));
@@ -105,15 +112,15 @@ const Hero = props => {
                     </select>
 
 
-                    <select type="text" className="input" onAnimationEnd={onChangeSubCategory} onChange={onChangeSubCategory} onChangeCapture={onChangeSubCategory} placeholder="abc" id="subcategory" disabled={emptySubCategory}>
-                        <option value="" ref={notInitialRender} hidden={!emptySubCategory} disabled selected={emptySubCategory}>Select a category first</option>
+                    <select type="text" ref={subCategoryRef} className="input" onChange={onChangeSubCategory} placeholder="abc" id="subcategory" disabled={emptySubCategory}>
+                        <option value="" hidden={!emptySubCategory} disabled={!emptySubCategory} selected={emptySubCategory}>Select a category first</option>
                         {subCategory ? (subCategory.map(subCategory => {
                             return (
                                 <option value={subCategory}> {subCategory.substr(0, 20)} </option>
                             )
                         })) : subCategory}
                     </select>
-{/* 
+                    {/* 
                     <select type="text" className="input mdb-select md-form" id="segment">
                         {city.map(city => {
                             return (
@@ -123,7 +130,7 @@ const Hero = props => {
                     </select> */}
 
                     <select type="text" disabled={emptySubCategory} className="input" id="name">
-                    <option value="" hidden={!emptySubCategory} disabled selected={emptySubCategory}>Select Sub-Categoty first</option>
+                        <option value="" hidden={!emptySubCategory} disabled={!emptySubCategory} selected={emptySubCategory}>Select Category and Sub-Category</option>
                         {name.map(name => {
                             return (
                                 <option value={name}> {name.substr(0, 20)} </option>
@@ -136,16 +143,16 @@ const Hero = props => {
                         className="input date"
                         placeholder="Date"
                     />
-
-                    <button className="btn btn-dark input-btn">Search</button>
-
+                    
+                    <button className="btn btn-dark input-btn">Get Appointment</button>
                 </div>
+
             </div>
             <div className='hero-bottom'>
                 <div className="hero-bottom-text">  <h1 className='display-4'>Free appointment scheduling software that makes life easier for Health, beauty, fitness, and all your needs.</h1>
                 </div>
                 <div className="hero-bottom-img">
-                    <img src={GirlPng}></img>
+                    <img src={GirlPng} alt='Appointofix-girl' ></img>
                 </div>
             </div>
         </div>

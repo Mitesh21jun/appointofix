@@ -97,7 +97,7 @@ a {
 
 .hero > .input-group > .input-btn {
   font-size: 1.5rem;
-  padding: 0px 30px;
+  padding: .5rem 2rem;
   margin: 1rem;
   border-radius: 6px !important;
 }
