@@ -3,7 +3,9 @@ class AppointofixDataService {
   getAll() {
     return http.get(`/shops?`);
   }
-
+  getByCategoryAndCity(category, city) {
+  return http.get(`/shops?category=${category}&city=${city}`)
+}
 
   get(id) {
     return http.get(`/shops?id=${id}`);
@@ -25,6 +27,10 @@ class AppointofixDataService {
   
   getCity(id) {
     return http.get(`/city`);
+  }
+
+  searchName(name) {
+    return http.get(`/shops?name=${name}`)
   }
 
   getName(id) {
