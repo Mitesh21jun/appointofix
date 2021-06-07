@@ -6,10 +6,10 @@ import ShopsList from "./components/ShopsList";
 import Hero from "./components/Hero";
 import { Link, Route, Switch } from "react-router-dom";
 
-function App(searchText) {
+function App(searchText,category) {
   return (
     <div className="App">
-      <Header searchText={searchText}/>
+      <Header />
       <li className="nav-item">
       </li>
 
@@ -20,9 +20,12 @@ function App(searchText) {
           component={Hero}
         />
         <Route
+          exact
           path={["/shops/:searchText"]}
           component={ShopsList}
+          category={category}
           searchText={searchText}
+          Props='Props'
         />
       </Switch>
     </div>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AppointofixDataService from "../services/appointofix";
-const ShopsList = async ({ match }) => {
+
+const ShopsList = ({ match }) => {
+  const [search, setSearch] = useState([])
 
   console.log(match)
 
@@ -18,11 +20,10 @@ const ShopsList = async ({ match }) => {
     review_count: "",
   };
 
-  const [search, setSearch] = useState(initialShopState)
 
   useEffect(() => {
     onSearch();
-  }, [match.params.searchText])
+  },[match])
 
 
 
@@ -58,7 +59,9 @@ const ShopsList = async ({ match }) => {
   }
 
   return (<div>
-    {(search)?search.map(shop => (<h1>{shop.name}</h1>)):''}
+    {search.map(data => {
+      return (<h1 name={data.name} key={data.key}>{data.name}</h1>)
+    })}
   </div>)
 };
 

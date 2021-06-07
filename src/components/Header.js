@@ -10,7 +10,6 @@ const Header = () => {
   const [search, setSearch] = useState('')
   
   const onSearch = () => {
-    
     setSearch(searchRef.current.value)
   }
 

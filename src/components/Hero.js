@@ -32,21 +32,25 @@ const Hero = props => {
 
 
     const onChangeSubCategory = async () => {
+
         // searchSubCategory = e.target.value;
         // console.log(e.target.value);
         
         await AppointofixDataService.getAll().then((response) => {
+
             let tempName = (response.data.shops.map(shop => ((shop.category === searchCategory) && (shop.sub_category === subCategoryRef.current.value)) ? shop.name : '').filter(val => val !== ''))
             setName(tempName)
-        setSearchSubCategory(subCategoryRef.current.value);
-    // console.log(onChangeSubCategory(subCategoryRef.current))
+            setSearchSubCategory(subCategoryRef.current.value);
+            // console.log(onChangeSubCategory(subCategoryRef.current))
+            
         }).catch(e => {
             console.log(e);
         });
 
     };
 
-    const onChangeSearchCategory =async  e => {
+    const onChangeSearchCategory = async e => {
+        
         // const searchCategory = e.target.value;
         // console.log(searchCategory);
         
@@ -61,6 +65,7 @@ const Hero = props => {
     };
 
     const retrieveCategories = async () => {
+
         await AppointofixDataService.getCategories()
             .then(response => {
                 console.log(response.data);
@@ -86,6 +91,7 @@ const Hero = props => {
     // };
 
     const retrieveName = async () => {
+
         await AppointofixDataService.getName()
             .then(response => {
                 console.log(response.data);
@@ -152,7 +158,7 @@ const Hero = props => {
                 <div className="hero-bottom-text">  <h1 className='display-4'>Free appointment scheduling software that makes life easier for Health, beauty, fitness, and all your needs.</h1>
                 </div>
                 <div className="hero-bottom-img">
-                    <img src={GirlPng} alt='Appointofix-girl' ></img>
+                <img src={GirlPng} alt='Appointofix-girl' ></img>
                 </div>
             </div>
         </div>
