@@ -1,18 +1,30 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Logo from '../img/logo.png';
 import AppointofixDataService from "../services/appointofix";
-const Header = (props) => {
+import ShopsList from './ShopsList';
 
-  const searchRef = useRef('');
+const Header = () => {
 
-  const searchName = async (name) => {
-    name = searchRef.current.value
-    await AppointofixDataService.searchName(name).then((response) => {
-      let tempName = response.data.shops.map(shop => shop)
-    console.log(tempName)
-    })
+  const searchRef = useRef();
+  const [search, setSearch] = useState('')
+  
+  const onSearch = () => {
+    
+    setSearch(searchRef.current.value)
   }
+
+
+  // const onSearch = async () => {
+  //   await AppointofixDataService.searchName(searchRef.current.value).then((response) => {
+  //     let tempName = response.data.shops.map(shop => shop)
+  //     console.log(tempName)
+  //     setSearch(tempName)
+  //   }).catch(e => {
+  //     console.log(e)
+  //   })
+  //   return search;  
+  // }
 
 
   return (
@@ -25,9 +37,12 @@ const Header = (props) => {
           </Link>
         </div>
         <div class="input-group search">
-          <input type="text" ref={searchRef} class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2" />
+          <input type="text" ref={searchRef} onChange={onSearch} class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2"  />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary btn-search" type="button"><i className='fas fa-search' onClick={searchName}></i></button>
+            <Link to={`/shops/${search}`}>      
+            <button onClick={onSearch} class="btn btn-outline-secondary btn-search" type="button"
+            ><i className='fas fa-search'></i></button>
+            </Link>
           </div>
         </div>
         <div className="nav-item">
