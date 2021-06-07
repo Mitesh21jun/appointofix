@@ -21,11 +21,15 @@ function App(searchText,category) {
         />
         <Route
           exact
-          path={["/shops/:searchText"]}
+          path={["/shops/name=:searchText"]}
+          component={ShopsList}
+          searchText={searchText}
+        />
+          <Route
+          exact
+          path={['/shops/category=:category']}
           component={ShopsList}
           category={category}
-          searchText={searchText}
-          Props='Props'
         />
       </Switch>
     </div>

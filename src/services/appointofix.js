@@ -5,6 +5,10 @@ class AppointofixDataService {
     return http.get(`/shops?`);
   }
 
+  getByCategory(category) {
+    return http.get(`/shops?category=${category}`)
+  }
+
   getByCategoryAndCity(category, city) {
     return http.get(`/shops?category=${category}&city=${city}`)
   }

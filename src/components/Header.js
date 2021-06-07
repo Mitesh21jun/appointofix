@@ -38,7 +38,7 @@ const Header = () => {
         <div class="input-group search">
           <input type="text" ref={searchRef} onChange={onSearch} class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2"  />
           <div class="input-group-append">
-            <Link to={`/shops/${search}`}>      
+            <Link to={`/shops/name=${search}`}>      
             <button onClick={onSearch} class="btn btn-outline-secondary btn-search" type="button"
             ><i className='fas fa-search'></i></button>
             </Link>
