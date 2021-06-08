@@ -46,6 +46,9 @@ const ShopsList = ({ match }) => {
 
   const onSearch = async () => {
   
+    console.log("first if")
+
+
     if (match.params.searchText) {
       await AppointofixDataService.searchName(match.params.searchText).then((response) => {
         const data = (response.data.shops.map(shop => shop))
@@ -54,9 +57,11 @@ const ShopsList = ({ match }) => {
       }).catch(e => {
         console.log(e)
       })
+      return 
     }
-    if (match.params.category) {
-      if (match.params.category === 'all') {
+    if (match.params.category && match.params.city) {
+
+      if (match.params.category === 'all category'&& match.params.city==='all city') {
         await AppointofixDataService.getAll()
         .then((response) => {
         console.log(response.data.shops)
@@ -66,36 +71,102 @@ const ShopsList = ({ match }) => {
       })
       .catch(e => {
           console.log(e);
-      })  
+      })
+        return
       }
-     if(match.params.category!=='all')
-      await AppointofixDataService.getByCategory(match.params.category)
-        .then((response) => {
-        console.log(response.data.shops)
-        const data = (response.data.shops.map(shop => shop).sort((a,b)=>b.review_count - a.review_count))
-        console.log(data);
-        setSearch(data)
-      })
-      .catch(e => {
-          console.log(e);
-      })
+
+      if (match.params.category === 'all category'&& match.params.city!=='all city') {
+        await AppointofixDataService.getByCity(match.params.city)
+            .then((response) => {
+            console.log(response.data.shops)
+            const data = (response.data.shops.map(shop => shop).sort((a,b)=>b.review_count - a.review_count))
+            console.log(data);
+            setSearch(data)
+          })
+          .catch(e => {
+              console.log(e);
+          })
+          return
+      }
+
+      if (match.params.category !== 'all category'&& match.params.city==='all city') {
+        await AppointofixDataService.getByCategory(match.params.category)
+            .then((response) => {
+            console.log(response.data.shops)
+            const data = (response.data.shops.map(shop => shop).sort((a,b)=>b.review_count - a.review_count))
+            console.log(data);
+            setSearch(data)
+          })
+          .catch(e => {
+              console.log(e);
+          })
+          return
+      }
+
+      if (match.params.category !== 'all category'&& match.params.city!=='all city') {
+        await AppointofixDataService.getByCategoryAndCity(match.params.category,match.params.city)
+            .then((response) => {
+            console.log(response.data.shops)
+            const data = (response.data.shops.map(shop => shop).sort((a,b)=>b.review_count - a.review_count))
+            console.log(data);
+            setSearch(data)
+          })
+          .catch(e => {
+              console.log(e);
+          })
+          return
+      }
+
     }
+
+    // if (match.params.category) {
+
+    //   if (match.params.category === 'all category') {
+    //     await AppointofixDataService.getAll()
+    //     .then((response) => {
+    //     console.log(response.data.shops)
+    //     const data = (response.data.shops.map(shop => shop).sort((a,b)=>b.review_count - a.review_count))
+    //     console.log(data);
+    //     setSearch(data)
+    //   })
+    //   .catch(e => {
+    //       console.log(e);
+    //   })
+    //     return
+    //   }
+
+    //  if(match.params.category!=='all category')
+    //   await AppointofixDataService.getByCategory(match.params.category)
+    //     .then((response) => {
+    //     console.log(response.data.shops)
+    //     const data = (response.data.shops.map(shop => shop).sort((a,b)=>b.review_count - a.review_count))
+    //     console.log(data);
+    //     setSearch(data)
+    //   })
+    //   .catch(e => {
+    //       console.log(e);
+    //   })
+    //   return
+      
+    // }
       
   }
 
   return (<div style={{display:"flex", flexDirection:'column', justifyContent:'center',alignContent:'center'}} >
-    <h1 className='display-4' >
+    <h1 className='display-4 m-auto' >
       Shop-List
 </h1><br/>
     {search.map(data => {
       return (
       
-        <div className="col-lg-6 pb-1">
-        <div className="card">
+        <div className="col-10 m-auto">
+        <div className="card p-3">
           <div className="card-body">
             <h5 className="card-title display-6">{data.name}</h5>
             <p className="card-text lead">
-              <strong>Category: </strong>{data.category}<br/>
+              <strong>Category: </strong>{data.category}<br />
+              <strong>Sub Category: </strong>{data.sub_category}<br/>
+                
               <strong>Address: </strong>{data.address}
             </p>
             <div className="row">

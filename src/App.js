@@ -28,7 +28,7 @@ function App(searchText,category) {
         />
           <Route
           exact
-          path={['/shops/category=:category']}
+          path={['/shops/category=:category/city=:city']}
           component={ShopsList}
           category={category}
         />

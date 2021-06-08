@@ -24,18 +24,18 @@ getShop()
     
     return (
         shop.map(item => {
-            return (<div className='card'>
-                <h1 className='display-6'>{item.name}</h1>
+            return (<div className='card col-10 m-auto'>
+                <h1 className='display-6 m-auto mt-3'>{item.name}</h1><br/>
             
                 <p className="lead">
-                <strong>Category: {item.category}</strong><br/>
-                <strong>Sub Category: {item.sub_category}</strong><br/>
-                <strong>Address: {item.address}</strong><br/>
-                <strong>City: {item.city}</strong><br/>
-                <strong>Email: {item.email}</strong><br/>
-                <strong>Website: {item.website}</strong><br/>
-                <strong>Review: {item.review}</strong><br/>
-                <strong>Review Count: {item.review_count}</strong>
+                <strong>Category: </strong>{item.category}<br/>
+                <strong>Sub Category: </strong>{item.sub_category}<br/>
+                <strong>Address: </strong>{item.address}<br/>
+                <strong>City: </strong>{item.city}<br/>
+                <strong>Email: </strong>{item.email}<br/>
+                <strong>Website: </strong>{item.website}<br/>
+                <strong>Review: </strong>{item.review}<br/>
+                <strong>Review Count: </strong>{item.review_count}
                     
             </p>
             </div>)

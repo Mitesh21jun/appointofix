@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom';
 
 const Hero = props => {
     const [category, setCategories] = useState(['All Categories']);
-    // const [city, setCity] = useState(["All City"]);
+    const [city, setCity] = useState(["all city"]);
     const [name, setName] = useState(["Select Destination"]);
-    const [searchCategory, setSearchCategory] = useState('all');
+    const [searchCategory, setSearchCategory] = useState('all category');
+    const [searchCity, setSearchCity] = useState('all city');
+
     const [subCategory, setSubCategory] = useState([]);
     const [searchSubCategory, setSearchSubCategory] = useState([]);
 
@@ -15,11 +17,12 @@ const Hero = props => {
     const categoryRef = useRef('')
     const subCategoryRef = useRef()
 
-    useEffect(() => {
+    // useEffect(() => {
         
-    onChangeSubCategory()
+    //     onChangeSubCategory()
+    //     retrieveCity()
         
-    },[searchCategory])
+    // },[searchCategory,searchCity])
 
 
     let emptySubCategory = (subCategory.length === 0)
@@ -27,7 +30,7 @@ const Hero = props => {
 
     useEffect(() => {
         retrieveCategories();
-        // retrieveCity();
+        retrieveCity();
         // retrieveName();
 
     }, []);
@@ -62,7 +65,23 @@ const Hero = props => {
         await AppointofixDataService.getAll().then((response) => {
             setSubCategory(response.data.shops.map(shop => (shop.category === e.target.value) ? shop.sub_category : '').filter((value, index, self) => self.indexOf(value) === index).filter(val => val !== ''))
             // setSubCategory(changeCategory)
-            setSearchCategory(e.target.value);
+            // setSearchCategory(e.target.value);
+            
+        }).catch(e => {
+            console.log(e);
+        });
+    };
+
+    const onChangeCity = async e => {
+        setSearchCity(e.target.value);
+        
+        // const searchCategory = e.target.value;
+        // console.log(searchCategory);
+        
+        await AppointofixDataService.getAll().then((response) => {
+            setCity(response.data.shops.map(shop => (shop.city === e.target.value) ? shop.city : '').filter((value, index, self) => self.indexOf(value) === index).filter(val => val !== ''))
+            // setSubCategory(changeCategory)
+            // setSearchCity(e.target.value);
             
         }).catch(e => {
             console.log(e);
@@ -82,17 +101,19 @@ const Hero = props => {
     };
 
 
-    // const retrieveCity = () => {
-    //     AppointofixDataService.getCity()
-    //         .then(response => {
-    //             console.log(response.data);
-    //             setCity(["All City"].concat(response.data));
+    const retrieveCity = async () => {
 
-    //         })
-    //         .catch(e => {
-    //             console.log(e);
-    //         });
-    // };
+
+        await AppointofixDataService.getCity()
+            .then(response => {
+                console.log(response.data);
+                setCity(["All City"].concat(response.data));
+
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
 
     // const retrieveName = async () => {
 
@@ -132,14 +153,14 @@ const Hero = props => {
                             )
                         })) : subCategory} */}
                     </select>
-                    {/* 
-                    <select type="text" className="input mdb-select md-form" id="segment">
+                    
+                    <select type="text" onChange={onChangeCity} className="input mdb-select md-form" id="segment">
                         {city.map(city => {
                             return (
                                 <option value={city}> {city.substr(0, 20)} </option>
                             )
                         })}
-                    </select> */}
+                    </select>
 
                     <select type="text" hidden='true' disabled={emptySubCategory} className="input" id="name">
                         <option value=""
@@ -159,7 +180,7 @@ const Hero = props => {
                         placeholder="Date"
                     />
                      */}
-                    <Link style={{color:'white'}} to={`shops/category=${searchCategory}`}>
+                    <Link style={{color:'white'}} to={`shops/category=${searchCategory}/city=${searchCity}`}>
                     <button className="btn btn-dark input-btn">Search</button>
                     </Link>
                 </div>
