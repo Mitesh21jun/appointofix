@@ -5,6 +5,7 @@ import './styles/style.css'
 import ShopsList from "./components/ShopsList";
 import Hero from "./components/Hero";
 import { Link, Route, Switch } from "react-router-dom";
+import Shop from './components/Shop';
 
 function App(searchText,category) {
   return (
@@ -31,6 +32,14 @@ function App(searchText,category) {
           component={ShopsList}
           category={category}
         />
+
+<Route
+          exact
+          path={['/shops/:id']}
+          component={Shop}
+          
+        />
+
       </Switch>
     </div>
   );

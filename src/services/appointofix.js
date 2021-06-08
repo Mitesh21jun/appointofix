@@ -13,7 +13,7 @@ class AppointofixDataService {
     return http.get(`/shops?category=${category}&city=${city}`)
   }
 
-  get(id) {
+  getByID(id) {
     return http.get(`/shops?id=${id}`);
   }
 

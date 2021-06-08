@@ -54,6 +54,7 @@ const Hero = props => {
     };
 
     const onChangeSearchCategory = async e => {
+        setSearchCategory(e.target.value);
         
         // const searchCategory = e.target.value;
         // console.log(searchCategory);
@@ -74,7 +75,6 @@ const Hero = props => {
             .then(response => {
                 console.log(response.data);
                 setCategories(["All Categories"].concat(response.data));
-
             })
             .catch(e => {
                 console.log(e);
@@ -159,8 +159,9 @@ const Hero = props => {
                         placeholder="Date"
                     />
                      */}
-                    <button className="btn btn-dark input-btn"><Link style={{color:'white'}} to={`shops/category=${searchCategory}`}>Search</Link></button>
-                    
+                    <Link style={{color:'white'}} to={`shops/category=${searchCategory}`}>
+                    <button className="btn btn-dark input-btn">Search</button>
+                    </Link>
                 </div>
 
             </div>
